@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>لوحة الطلبات - ميمو إكسبريس</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2 style="text-align:center;margin:40px 0;">قائمة الطلبات</h2>
+    <div id="orders">جاري التحميل...</div>
+  </div>
+
+  <script>
+    window.onload = () => {
+      const orders = JSON.parse(localStorage.getItem("memoOrders") || "[]");
+      const container = document.getElementById("orders");
+      
+      if (orders.length === 0) {
+        container.innerHTML = "<p>لا توجد طلبات بعد.</p>";
+        return;
+      }
+
+      container.innerHTML = "";
+      orders.reverse().forEach(order => {
+        const div = document.createElement("div");
+        div.style.padding = "15px";
+        div.style.margin = "10px 0";
+        div.style.border = "1px solid #ddd";
+        div.style.borderRadius = "10px";
+        div.innerHTML = `
+          <strong>الاسم:</strong> ${order.name} <br>
+          <strong>الهاتف:</strong> ${order.phone} <br>
+          <strong>العنوان:</strong> ${order.address} <br>
+          <strong>الإجمالي:</strong> ${order.total} درهم <br>
+          <strong>الوقت:</strong> ${order.timestamp}
+        `;
+        container.appendChild(div);
+      });
+    };
+  </script>
+</body>
+</html>
